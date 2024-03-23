@@ -11,6 +11,9 @@ start:
 	movw $0x7d00, %ax
 	movw %ax, %sp # setting stack pointer to 0x7d00
 	# TODO:通过中断输出Hello World
+	pushw $13 # pushing the size to print into stack
+	pushw $message # pushing the address of message into stack
+	callw displayStr # calling the display function
 
 loop:
 	jmp loop
@@ -18,10 +21,24 @@ loop:
 message:
 	.string "Hello, World!\n\0"
 
+displayStr:
+	pushw %bp
+	movw 4(%esp), %ax
+	movw %ax, %bp
+	movw 6(%esp), %cx
+	movw $0x1301, %ax
+	movw $0xa4, %bx
+	movw $0x0000, %dx
+	int $0x10
+	popw %bp
+	ret
+
+
 
 
 # TODO: This is lab1.2
 /* Protected Mode Hello World */
+/*
 .code16
 
 .global start
@@ -95,10 +112,11 @@ gdt: # 8 bytes for each table entry, at least 1 entry
 gdtDesc: 
 	.word (gdtDesc - gdt -1) 
 	.long gdt 
+*/
 
-
-TODO: This is lab1.3
+#TODO: This is lab1.3
 /* Protected Mode Loading Hello World APP */
+/*
 .code16
 
 .global start
@@ -161,3 +179,4 @@ gdt: # 8 bytes for each table entry, at least 1 entry
 gdtDesc: 
 	.word (gdtDesc - gdt - 1) 
 	.long gdt 
+*/

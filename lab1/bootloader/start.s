@@ -15,7 +15,6 @@ start:
 	pushw $13 # pushing the size to print into stack
 	pushw $message # pushing the address of message into stack
 	callw displayStr # calling the display function
-
 loop:
 	jmp loop
 

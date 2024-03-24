@@ -4,6 +4,10 @@
 
 void bootMain(void) {
 	//TODO
+	void (*app)(void);
+	app=(void*)0x8c00;
+	readSect(app, 1);
+	app();
 
 }
 
